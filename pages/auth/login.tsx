@@ -7,7 +7,6 @@ import {
     StyleSheet,
     SafeAreaView,
     ScrollView,
-    Platform,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,9 +19,8 @@ type RootStackParamList = {
     Home: undefined;
 };
 
-export default function JoinNeighbourly() {
+export default function LoginNeighbourly() {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-    const [role, setRole] = useState('seeker');
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -32,40 +30,12 @@ export default function JoinNeighbourly() {
                 {/* Main Content */}
                 <View style={styles.main}>
                     <View style={styles.titleSection}>
-                        <Text style={styles.title}>Join Neighbourly</Text>
-                        <Text style={styles.subtitle}>Enter your details to get started with the community.</Text>
+                        <Text style={styles.title}>Log In</Text>
+                        <Text style={styles.subtitle}>Welcome back to the community.</Text>
                     </View>
 
                     {/* Form Fields */}
                     <View style={styles.form}>
-                        {/* Full Name */}
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.inputLabel}>Full Name</Text>
-                            <View style={styles.inputWrapper}>
-                                <MaterialIcons name="person" size={20} color="#94a3b8" style={styles.inputIcon} />
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Jane Doe"
-                                    placeholderTextColor="#94a3b8"
-                                />
-                            </View>
-                        </View>
-
-                        {/* Email */}
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.inputLabel}>Email Address</Text>
-                            <View style={styles.inputWrapper}>
-                                <MaterialIcons name="mail" size={20} color="#94a3b8" style={styles.inputIcon} />
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="jane@example.com"
-                                    placeholderTextColor="#94a3b8"
-                                    keyboardType="email-address"
-                                    autoCapitalize="none"
-                                />
-                            </View>
-                        </View>
-
                         {/* Phone */}
                         <View style={styles.inputGroup}>
                             <Text style={styles.inputLabel}>Phone Number</Text>
@@ -106,7 +76,7 @@ export default function JoinNeighbourly() {
 
                         {/* CTA Button */}
                         <TouchableOpacity style={styles.ctaButton} onPress={() => navigation.navigate('Home')}>
-                            <Text style={styles.ctaText}>Create Account</Text>
+                            <Text style={styles.ctaText}>Log In</Text>
                             <MaterialIcons name="arrow-forward" size={20} color="#ffffff" />
                         </TouchableOpacity>
                     </View>
@@ -119,7 +89,7 @@ export default function JoinNeighbourly() {
                         </View>
                     </View>
 
-                    {/* Social Signup */}
+                    {/* Social Login */}
                     <View style={styles.socialGrid}>
                         <TouchableOpacity style={styles.socialButton}>
                             <Ionicons name="logo-google" size={20} color="#334155" style={{ marginRight: 8 }} />
@@ -133,9 +103,9 @@ export default function JoinNeighbourly() {
 
                     {/* Footer Link */}
                     <View style={styles.footer}>
-                        <Text style={styles.footerText}>Already have an account? </Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                            <Text style={styles.footerLink}>Log in</Text>
+                        <Text style={styles.footerText}>Don't have an account? </Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                            <Text style={styles.footerLink}>Sign up</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -201,38 +171,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#64748b',
     },
-    toggleContainer: {
-        flexDirection: 'row',
-        height: 48,
-        backgroundColor: '#f1f5f9',
-        borderRadius: 12,
-        padding: 4,
-        marginBottom: 32,
-    },
-    toggleBtn: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-    },
-    toggleBtnActive: {
-        backgroundColor: '#ffffff',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-        elevation: 2,
-    },
-    toggleText: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#64748b',
-    },
-    toggleTextActive: {
-        color: '#0f49bd',
-    },
     form: {
-        gap: 16, // Use marginTop on items if gap isn't supported in your RN version
+        gap: 16,
     },
     inputGroup: {
         marginBottom: 16,
@@ -320,7 +260,7 @@ const styles = StyleSheet.create({
         borderColor: '#e2e8f0',
         borderRadius: 12,
         backgroundColor: '#ffffff',
-        marginHorizontal: 4, // Polyfill for gap if needed
+        marginHorizontal: 4,
     },
     socialText: {
         fontSize: 16,
