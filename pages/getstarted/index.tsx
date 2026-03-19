@@ -9,11 +9,14 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function GetStarted() {
+    const navigation = useNavigation<any>();
     const [role, setRole] = useState('');
+    
     const handleContinue = () => {
-        console.log('Continue pressed');
+        navigation.navigate('Signup');
     };
     return (
         <SafeAreaView>
@@ -171,7 +174,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: '600',
-        marginRight:'2'
+        marginRight: 2
     },
     buttonContent: {
         flexDirection: 'row',

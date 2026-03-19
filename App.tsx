@@ -13,7 +13,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Signup" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="GetStarted" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Signup" component={JoinNeighbourly} />
           <Stack.Screen name="Login" component={LoginNeighbourly} />
           <Stack.Screen name="GetStarted" component={GetStarted} />
