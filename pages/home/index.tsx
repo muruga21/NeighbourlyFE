@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Platform, Scrol
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ProfileTab from './profile';
+import UpdatesTab from './updates';
+import NavBar from './navbar';
 
 const PROVIDER_DATA = [
     {
@@ -49,21 +52,10 @@ export default function Home() {
                         <Text style={styles.placeholderText}>Your Schedule</Text>
                     </View>
                 );
-            case 'Notification':
-                return (
-                    <View style={styles.placeholderContainer}>
-                        <Text style={styles.placeholderText}>Notifications</Text>
-                    </View>
-                );
+            case 'Updates':
+                return <UpdatesTab />;
             case 'Profile':
-                return (
-                    <View style={styles.placeholderContainer}>
-                        <Text style={styles.placeholderText}>Your Profile</Text>
-                        <TouchableOpacity style={styles.logOutBtn} onPress={() => navigation.goBack()}>
-                            <Text style={styles.logOutText}>Log Out</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
+                return <ProfileTab onLogout={() => navigation.goBack()} />;
             default:
                 return null;
         }
@@ -76,28 +68,7 @@ export default function Home() {
             </View>
 
             {/* Custom Minimalistic Bottom Navigation Bar */}
-            <View style={styles.navBar}>
-                <NavItem 
-                    iconName="home" 
-                    isActive={activeTab === 'Home'} 
-                    onPress={() => setActiveTab('Home')} 
-                />
-                <NavItem 
-                    iconName="calendar" 
-                    isActive={activeTab === 'Schedule'} 
-                    onPress={() => setActiveTab('Schedule')} 
-                />
-                <NavItem 
-                    iconName="notifications" 
-                    isActive={activeTab === 'Notification'} 
-                    onPress={() => setActiveTab('Notification')} 
-                />
-                <NavItem 
-                    iconName="person" 
-                    isActive={activeTab === 'Profile'} 
-                    onPress={() => setActiveTab('Profile')} 
-                />
-            </View>
+            <NavBar activeTab={activeTab} setActiveTab={setActiveTab} />
         </SafeAreaView>
     );
 }
@@ -184,30 +155,17 @@ function HomeTab() {
     );
 }
 
-function NavItem({ iconName, isActive, onPress }: any) {
-    return (
-        <TouchableOpacity style={styles.navItem} onPress={onPress}>
-            <Ionicons 
-                name={isActive ? iconName : `${iconName}-outline`} 
-                size={26} 
-                color={isActive ? '#0f172a' : '#94a3b8'} 
-            />
-            {/* Minimalistic active indicator */}
-            <View style={[styles.activeDot, { opacity: isActive ? 1 : 0 }]} />
-        </TouchableOpacity>
-    );
-}
+
 
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#ffffff', // Overall layout background
+        backgroundColor: '#ffffff',
     },
     mainContainer: {
         flex: 1,
         backgroundColor: '#ffffff',
     },
-    // Placeholders for non-Home tabs
     placeholderContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -219,49 +177,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#0f172a',
     },
-    logOutBtn: {
-        paddingHorizontal: 20,
-        paddingVertical: 12,
-        backgroundColor: '#e2e8f0',
-        borderRadius: 12,
-        marginTop: 20,
-    },
-    logOutText: {
-        color: '#334155',
-        fontWeight: '600',
-    },
 
-    // Navigation Bar
-    navBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor: '#ffffff',
-        height: Platform.OS === 'ios' ? 85 : 70,
-        paddingBottom: Platform.OS === 'ios' ? 20 : 0,
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.04,
-        shadowRadius: 12,
-        elevation: 10,
-    },
-    navItem: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-        paddingTop: 16,
-    },
-    activeDot: {
-        width: 4,
-        height: 4,
-        borderRadius: 2,
-        backgroundColor: '#0f172a',
-        marginTop: 6,
-    },
 
-    // Home Tab Styles
+
+    /* Home Tab Styles */
     homeTabContainer: {
         flex: 1,
         backgroundColor: '#ffffff',
@@ -304,7 +223,7 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         paddingBottom: 24,
         gap: 12,
-        paddingRight: 20, // Add padding at end of scroll
+        paddingRight: 20, 
     },
     categoryActive: {
         height: 40,
