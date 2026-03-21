@@ -6,6 +6,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProfileTab from './profile';
 import UpdatesTab from './updates';
 import EarningsTab from './earnings';
+import ScheduleTab from './schedule';
+import MapTab from './map';
+import ShowProviders from './showProviders';
 import NavBar from './navbar';
 
 const PROVIDER_DATA = [
@@ -78,18 +81,22 @@ const CATEGORY_DATA = [
 export default function Home() {
     const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState('Home');
-    const [role, setRole] = useState('provider'); // Initializing as seeker
+    const [role, setRole] = useState('seeker'); // Initializing as seeker
+    const [selectedProvider, setSelectedProvider] = useState<any>(null);
 
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return role === 'provider' ? <UpdatesTab /> : <HomeTab />;
+                return role === 'provider' ? <UpdatesTab /> : <HomeTab onProviderSelect={(provider: any) => {
+                    setSelectedProvider(provider);
+                    setActiveTab('ShowProviders');
+                }} />;
+            case 'ShowProviders':
+                return <ShowProviders selectedProvider={selectedProvider} onBack={() => setActiveTab('Home')} onBook={() => setActiveTab('Profile')} />;
             case 'Schedule':
-                return (
-                    <View style={styles.placeholderContainer}>
-                        <Text style={styles.placeholderText}>Your Schedule</Text>
-                    </View>
-                );
+                return <ScheduleTab />;
+            case 'Map':
+                return <MapTab />;
             case 'Earnings':
                 return <EarningsTab />;
             case 'Updates':
@@ -113,7 +120,7 @@ export default function Home() {
     );
 }
 
-function HomeTab() {
+function HomeTab({ onProviderSelect }: { onProviderSelect?: (provider: any) => void }) {
     const [categories, setCategories] = useState(CATEGORY_DATA);
 
     return (
@@ -183,7 +190,11 @@ function HomeTab() {
 
             <View style={styles.providersGrid}>
                 {PROVIDER_DATA.map((provider) => (
-                    <TouchableOpacity key={provider.id} style={styles.providerCard}>
+                    <TouchableOpacity 
+                        key={provider.id} 
+                        style={styles.providerCard}
+                        onPress={() => onProviderSelect && onProviderSelect(provider)}
+                    >
                         <View style={styles.imageContainer}>
                             <Image
                                 source={{ uri: provider.image }}

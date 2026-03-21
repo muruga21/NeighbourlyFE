@@ -66,6 +66,7 @@ export default function NavBar({ activeTab, setActiveTab, role }: NavBarProps) {
             <View style={styles.navItemsWrapper}>
                 <Animated.View style={[styles.navItemsContainer, { opacity: contentOpacity }]}>
                     <NavItem iconName="home" isActive={activeTab === 'Home'} onPress={() => handleSelect('Home')} />
+                    <NavItem iconName="map" isActive={activeTab === 'Map'} onPress={() => handleSelect('Map')} />
                     {role === 'provider' && (
                         <NavItem iconName="wallet" isActive={activeTab === 'Earnings'} onPress={() => handleSelect('Earnings')} />
                     )}

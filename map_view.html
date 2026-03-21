@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f49bd",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .grayscale-map {
+            filter: grayscale(100%) contrast(1.1) brightness(0.95);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-hidden">
+<div class="relative flex h-screen w-full flex-col overflow-hidden">
+<!-- Header Overlay -->
+<!-- Map Layer -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full grayscale-map bg-slate-200" data-alt="Detailed grayscale minimalist city map background" data-location="New York City" style="">
+<!-- Custom Markers (Simulated) -->
+<div class="absolute top-1/3 left-1/4">
+<div class="relative flex flex-col items-center group cursor-pointer">
+<div class="bg-slate-900 text-white p-2 rounded-lg text-xs font-bold shadow-xl mb-1">$45</div>
+<span class="material-symbols-outlined text-slate-900 text-3xl" style="font-variation-settings: 'FILL' 1">location_on</span>
+</div>
+</div>
+<div class="absolute top-1/2 left-2/3">
+<div class="relative flex flex-col items-center group cursor-pointer">
+<div class="bg-white text-slate-900 p-2 rounded-lg text-xs font-bold shadow-xl mb-1">$62</div>
+<span class="material-symbols-outlined text-slate-900 text-3xl" style="font-variation-settings: 'FILL' 1">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-1/3 left-1/2">
+<div class="relative flex flex-col items-center group cursor-pointer">
+<div class="bg-slate-900 text-white p-2 rounded-lg text-xs font-bold shadow-xl mb-1">$38</div>
+<span class="material-symbols-outlined text-slate-900 text-3xl" style="font-variation-settings: 'FILL' 1">location_on</span>
+</div>
+</div>
+</div>
+<!-- Map Controls -->
+<div class="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex flex-col gap-2">
+<button class="w-10 h-10 bg-white dark:bg-background-dark rounded-lg shadow-md border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">add</span>
+</button>
+<button class="w-10 h-10 bg-white dark:bg-background-dark rounded-lg shadow-md border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-700 dark:text-slate-200">remove</span>
+</button>
+<div class="mt-4">
+<button class="w-10 h-10 bg-primary text-white rounded-lg shadow-lg flex items-center justify-center">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Sheet Drawer -->
+<div class="mt-auto relative z-30 flex flex-col bg-white dark:bg-background-dark rounded-t-3xl shadow-[0_-10px_25px_rgba(0,0,0,0.05)] border-t border-slate-200 dark:border-slate-800">
+<!-- Drag Handle -->
+<div class="flex items-center justify-center py-3">
+<div class="w-12 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+</div>
+<!-- Provider List -->
+<div class="px-4 pb-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Providers nearby</h2>
+<span class="text-sm text-slate-500">12 results</span>
+</div>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+<!-- Provider Card 1 -->
+<div class="flex-none w-72 bg-background-light dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+<div class="flex gap-3">
+<img alt="Provider profile" class="w-16 h-16 rounded-lg object-cover" data-alt="Professional profile headshot of a service provider" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVQGfYfKSu6VWmP9tiyC37sQeNEm_nHMlTnjvK715uCN_DH8ttpNl-9b-zh24RzaFwSsR9tC2L9roQhLAUa3kHiy-EIBU76hxsKp0N8CqCdb4BR70odzC5sKZoLwjQsxJ20ZrB3oHyOkLBN2Un8IAF9XdCXzJ4sMlzUgP6A4CxD85zoyEhCuEqumwhtpWzvSSaxMT3BDvqkRFTBzvu2CToLXIICqqMnC7lbNczHG-Hrv3FDZcNMu8AiUTVGPyW7EPb5n7zLncC-I2S"/>
+<div class="flex-1 min-w-0">
+<h3 class="text-sm font-bold truncate">Urban Cleaners Co.</h3>
+<div class="flex items-center gap-1 text-amber-500 mt-0.5">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="text-xs font-semibold">4.9</span>
+<span class="text-slate-400 text-[10px]">(124)</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">0.4 miles away</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between">
+<p class="text-sm font-bold text-primary">From $45/hr</p>
+<button class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg">Book</button>
+</div>
+</div>
+<!-- Provider Card 2 -->
+<div class="flex-none w-72 bg-background-light dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+<div class="flex gap-3">
+<img alt="Provider profile" class="w-16 h-16 rounded-lg object-cover" data-alt="Friendly face profile picture of local specialist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiC-3bVPG510jQw4Rtds6EKwwWyIrt-9ExTkWjlsJ_enIcOMt0XaRA6VzN2zcOIUXXBtvipUPSGoNaVqKu-ST9Bsz-_cPEVCkIbli3ho036KQK5sNRGvPONEWDMVM0i79_XJWOq7Ku7XLeqRCWQGWubwYnT7j39sPEm3pnpcsphpsAAis_5gy3iA799v3hqkm7LP1Y1sUoyYF-vx_kEj6tNfT4PnDBZj1AIXXEAGKi8LWlUwvQnk6uX6ilCWR6AVHIoMXKubRDd3Dp"/>
+<div class="flex-1 min-w-0">
+<h3 class="text-sm font-bold truncate">Fix-It Sarah</h3>
+<div class="flex items-center gap-1 text-amber-500 mt-0.5">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="text-xs font-semibold">4.8</span>
+<span class="text-slate-400 text-[10px]">(89)</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">1.2 miles away</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between">
+<p class="text-sm font-bold text-primary">From $62/hr</p>
+<button class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-lg">Book</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Bar -->
+<div class="flex border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-background-dark px-6 pb-8 pt-4 justify-between">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">map</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Map</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">format_list_bulleted</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">List</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Messages</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-bold uppercase tracking-wider">Profile</p>
+</a>
+</div>
+</div>
+</div>
+</body></html>
