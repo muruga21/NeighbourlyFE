@@ -9,9 +9,10 @@ const MIN_WIDTH = 64; // Collapses perfectly into a circular FAB
 interface NavBarProps {
     activeTab: string;
     setActiveTab: (tab: string) => void;
+    role?: string;
 }
 
-export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
+export default function NavBar({ activeTab, setActiveTab, role }: NavBarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
 
@@ -65,8 +66,12 @@ export default function NavBar({ activeTab, setActiveTab }: NavBarProps) {
             <View style={styles.navItemsWrapper}>
                 <Animated.View style={[styles.navItemsContainer, { opacity: contentOpacity }]}>
                     <NavItem iconName="home" isActive={activeTab === 'Home'} onPress={() => handleSelect('Home')} />
-                    <NavItem iconName="calendar" isActive={activeTab === 'Schedule'} onPress={() => handleSelect('Schedule')} />
-                    <NavItem iconName="sync" isActive={activeTab === 'Updates'} onPress={() => handleSelect('Updates')} />
+                    {role === 'provider' && (
+                        <NavItem iconName="wallet" isActive={activeTab === 'Earnings'} onPress={() => handleSelect('Earnings')} />
+                    )}
+                    {role === 'seeker' && (
+                        <NavItem iconName="calendar" isActive={activeTab === 'Schedule'} onPress={() => handleSelect('Schedule')} />
+                    )}
                     <NavItem iconName="person" isActive={activeTab === 'Profile'} onPress={() => handleSelect('Profile')} />
                 </Animated.View>
             </View>

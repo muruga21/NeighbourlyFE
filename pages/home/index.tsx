@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProfileTab from './profile';
 import UpdatesTab from './updates';
+import EarningsTab from './earnings';
 import NavBar from './navbar';
 
 const PROVIDER_DATA = [
@@ -35,23 +36,62 @@ const PROVIDER_DATA = [
         serviceText: 'EXPERT PLUMBING • 0.5 MI',
         rating: '4.7',
         image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA2ktMcTueg2ntSvIkEFaLbJS6awc-YU6qWneHtwwwFWeA1gF_TyxjiReav4hMObr7jcLPM91bsS_ZfdHbWKO-iOTQdop7loXptHfDU_6xbzbiOlDEzMnApbXFT1xVpa-X1pnjfYnBNWWB-fIDCcNFTBd14WZ3NF1dv7v3bcjtfyNtij8xsp84h4nNRIeyAT58yNO8S0-a8rJwXYEEx7KqbaWofugzw_m7MqbwSJQAnPgM8RouYLDfwreDZJbKadyB3fCY5ABTfR6jt'
+    },
+    {
+        id: '5',
+        name: 'Elena Petrova',
+        serviceText: 'PREMIUM CLEANING • 0.8 MI',
+        rating: '4.9',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGtZkY9FbplsxbIfGVxgTjxRHaoN8o_oGZswXE88Pxi6g5zn_bvgUXGDWTBjcQP9Kihy1xdPPLxz27f74LUaAAgQF2jaQ_6ISPH1WCnkYQ4mPjE7Fzz-4nqcAg2ffAcYfFvngvKKl5e3BMLne6MPJP_FGpa0BVuMblVbvXmk5tPdnII46Z3Pzq7Ya1yiVA_oNpB-B07gZlLnz32W3te2Yc23mAhLRg2xdpeK3yO5FKvR2i1eOX9MxywVVJMX0eqgjMQXJcu5kAtMsa'
+    },
+    {
+        id: '6',
+        name: 'Marcus Thorne',
+        serviceText: 'MASTER ELECTRICIAN • 1.2 MI',
+        rating: '4.8',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBb77G8OR0bKyKYFCRNiIMwoJGucc0fGpI__ll5v3JbDsx1-2PWILj8AdDAQJqhpeQdsp1ABdoPXgxkjnokk2hflj3aEfAwWLe1Ru9VLon-JKTFP6L-Nmwq7pk1UxLGg5iDthNnGHWaFRN65P1glozgqgd5p0lUqV3b4jmHMPslOE6xL6FJeD08noMLH0q-p4WZHz1XGNXDr82meZeq3IuzKYFFWKmnxqmTmGgpAd-D8Nhcigp5oj2cWg58Oewo6uNC7o3Uwx-aJT5O'
+    },
+    {
+        id: '7',
+        name: 'Sasha K.',
+        serviceText: 'INTERIOR DESIGN • 2.4 MI',
+        rating: '5.0',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBsntkUghYSMMi2G0vnZ2Eb_lkV3C6uwZkLwNg9fa8PGrsnCgVtrxyf8ZiWFWL9av6nTng58JOp9dLJuvG96g9dUjmt3cpeCqKOttAiM-Gvr7o-mUi1w6YS259nWc9_ElH68pSguvR4RFf_aChex-vt8ZqXcYmPCGYVv2esjk4L6iYz6RtGCL04QKhSCugOkGorgbpZPDvoj4cHEPUsfnbcuo39QAU2D_FzcT-0I4SvhxIdaaVY4HqXUTxO7Xswesl1NtJZR_4gyY5A'
+    },
+    {
+        id: '8',
+        name: 'David Chen',
+        serviceText: 'EXPERT PLUMBING • 0.5 MI',
+        rating: '4.7',
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA2ktMcTueg2ntSvIkEFaLbJS6awc-YU6qWneHtwwwFWeA1gF_TyxjiReav4hMObr7jcLPM91bsS_ZfdHbWKO-iOTQdop7loXptHfDU_6xbzbiOlDEzMnApbXFT1xVpa-X1pnjfYnBNWWB-fIDCcNFTBd14WZ3NF1dv7v3bcjtfyNtij8xsp84h4nNRIeyAT58yNO8S0-a8rJwXYEEx7KqbaWofugzw_m7MqbwSJQAnPgM8RouYLDfwreDZJbKadyB3fCY5ABTfR6jt'
     }
+];
+
+const CATEGORY_DATA = [
+    { id: '1', name: 'All Services', icon: null, active: true },
+    { id: '2', name: 'Cleaning', icon: 'cleaning-services', active: false },
+    { id: '3', name: 'Plumbing', icon: 'plumbing', active: false },
+    { id: '4', name: 'Electrical', icon: 'electrical-services', active: false },
+    { id: '5', name: 'Painting', icon: 'format-paint', active: false }
 ];
 
 export default function Home() {
     const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState('Home');
+    const [role, setRole] = useState('provider'); // Initializing as seeker
 
     const renderContent = () => {
         switch (activeTab) {
             case 'Home':
-                return <HomeTab />;
+                return role === 'provider' ? <UpdatesTab /> : <HomeTab />;
             case 'Schedule':
                 return (
                     <View style={styles.placeholderContainer}>
                         <Text style={styles.placeholderText}>Your Schedule</Text>
                     </View>
                 );
+            case 'Earnings':
+                return <EarningsTab />;
             case 'Updates':
                 return <UpdatesTab />;
             case 'Profile':
@@ -68,12 +108,14 @@ export default function Home() {
             </View>
 
             {/* Custom Minimalistic Bottom Navigation Bar */}
-            <NavBar activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NavBar activeTab={activeTab} setActiveTab={setActiveTab} role={role} />
         </SafeAreaView>
     );
 }
 
 function HomeTab() {
+    const [categories, setCategories] = useState(CATEGORY_DATA);
+
     return (
         <ScrollView style={styles.homeTabContainer} showsVerticalScrollIndicator={false}>
             {/* Header */}
@@ -99,30 +141,36 @@ function HomeTab() {
             </View>
 
             {/* Categories */}
-            <ScrollView 
-                horizontal 
-                showsHorizontalScrollIndicator={false} 
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.categoriesContainer}
             >
-                <TouchableOpacity style={styles.categoryActive}>
-                    <Text style={styles.categoryActiveText}>All Services</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryInactive}>
-                    <MaterialIcons name="cleaning-services" size={16} color="#475569" style={styles.categoryIcon} />
-                    <Text style={styles.categoryInactiveText}>Cleaning</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryInactive}>
-                    <MaterialIcons name="plumbing" size={16} color="#475569" style={styles.categoryIcon} />
-                    <Text style={styles.categoryInactiveText}>Plumbing</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryInactive}>
-                    <MaterialIcons name="electrical-services" size={16} color="#475569" style={styles.categoryIcon} />
-                    <Text style={styles.categoryInactiveText}>Electrical</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.categoryInactive}>
-                    <MaterialIcons name="format-paint" size={16} color="#475569" style={styles.categoryIcon} />
-                    <Text style={styles.categoryInactiveText}>Painting</Text>
-                </TouchableOpacity>
+                {categories.map((category) => (
+                    <TouchableOpacity
+                        key={category.id}
+                        style={category.active ? styles.categoryActive : styles.categoryInactive}
+                        onPress={() => {
+                            const updatedCategories = categories.map(c => ({
+                                ...c,
+                                active: c.id === category.id
+                            }));
+                            setCategories(updatedCategories);
+                        }}
+                    >
+                        {category.icon && (
+                            <MaterialIcons
+                                name={category.icon as any}
+                                size={16}
+                                color={category.active ? "#ffffff" : "#475569"}
+                                style={styles.categoryIcon}
+                            />
+                        )}
+                        <Text style={category.active ? styles.categoryActiveText : styles.categoryInactiveText}>
+                            {category.name}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
 
             {/* Top Rated Nearby */}
@@ -137,9 +185,9 @@ function HomeTab() {
                 {PROVIDER_DATA.map((provider) => (
                     <TouchableOpacity key={provider.id} style={styles.providerCard}>
                         <View style={styles.imageContainer}>
-                            <Image 
-                                source={{uri: provider.image}} 
-                                style={styles.providerImage} 
+                            <Image
+                                source={{ uri: provider.image }}
+                                style={styles.providerImage}
                             />
                             <View style={styles.ratingBadge}>
                                 <Ionicons name="star" size={12} color="#eab308" />
@@ -150,6 +198,9 @@ function HomeTab() {
                         <Text style={styles.providerService}>{provider.serviceText}</Text>
                     </TouchableOpacity>
                 ))}
+            </View>
+            <View style={styles.footer}>
+                <Text>Bring up more services later...!</Text>
             </View>
         </ScrollView>
     );
@@ -222,8 +273,7 @@ const styles = StyleSheet.create({
     categoriesContainer: {
         paddingTop: 8,
         paddingBottom: 24,
-        gap: 12,
-        paddingRight: 20, 
+        paddingRight: 20,
     },
     categoryActive: {
         height: 40,
@@ -333,4 +383,13 @@ const styles = StyleSheet.create({
         color: '#64748b',
         letterSpacing: 0.5,
     },
+    footer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: 20,
+        color: '#333',
+        fontSize: 12,
+        fontWeight: '700',
+        letterSpacing: 0.5,
+    }
 });

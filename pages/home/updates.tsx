@@ -170,15 +170,8 @@ export default function UpdatesTab() {
             {/* Header */}
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                    <TouchableOpacity style={styles.menuIconBox}>
-                        <MaterialIcons name="menu" size={20} color="#0f172a" />
-                    </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Dashboard</Text>
+                    <Text style={styles.headerTitle}>Neighbouly</Text>
                 </View>
-                <TouchableOpacity style={styles.bellWrap}>
-                    <MaterialIcons name="notifications" size={24} color="#64748b" />
-                    <View style={styles.bellBadge} />
-                </TouchableOpacity>
             </View>
 
             {/* Overview Section */}
@@ -247,7 +240,11 @@ const styles = StyleSheet.create({
     headerLeft: {
         flexDirection: 'row',
         alignItems: 'center',
+        fontSize: 24,
+        fontWeight: '800',
+        color: '#0f172a',
         gap: 12,
+        marginLeft: 10,
     },
     menuIconBox: {
         width: 36,
