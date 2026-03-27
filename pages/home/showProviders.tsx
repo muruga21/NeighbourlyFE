@@ -122,7 +122,7 @@ export default function ShowProviders({ selectedProvider, onBack, onBook }: any)
                                 </View>
                                 <View style={styles.cardBottom}>
                                     <Text style={styles.price}>{provider.price}</Text>
-                                    <TouchableOpacity style={styles.bookBtn} onPress={onBook}>
+                                    <TouchableOpacity style={styles.bookBtn} onPress={() => onBook(provider.id)}>
                                         <Text style={styles.bookBtnText}>Book</Text>
                                     </TouchableOpacity>
                                 </View>

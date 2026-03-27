@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Platform, ScrollView, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Platform, ScrollView, TextInput, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -9,6 +9,7 @@ import EarningsTab from './earnings';
 import ScheduleTab from './schedule';
 import MapTab from './map';
 import ShowProviders from './showProviders';
+import CheckoutTab from './checkout';
 import NavBar from './navbar';
 
 const PROVIDER_DATA = [
@@ -83,6 +84,8 @@ export default function Home() {
     const [activeTab, setActiveTab] = useState('Home');
     const [role, setRole] = useState('seeker'); // Initializing as seeker
     const [selectedProvider, setSelectedProvider] = useState<any>(null);
+    const [viewingProfileId, setViewingProfileId] = useState<string | null>(null);
+    const [checkoutService, setCheckoutService] = useState<any>(null);
 
     const renderContent = () => {
         switch (activeTab) {
@@ -92,7 +95,14 @@ export default function Home() {
                     setActiveTab('ShowProviders');
                 }} />;
             case 'ShowProviders':
-                return <ShowProviders selectedProvider={selectedProvider} onBack={() => setActiveTab('Home')} onBook={() => setActiveTab('Profile')} />;
+                return <ShowProviders 
+                    selectedProvider={selectedProvider} 
+                    onBack={() => setActiveTab('Home')} 
+                    onBook={(id: string) => {
+                        setViewingProfileId(id);
+                        setActiveTab('Profile');
+                    }} 
+                />;
             case 'Schedule':
                 return <ScheduleTab />;
             case 'Map':
@@ -102,10 +112,35 @@ export default function Home() {
             case 'Updates':
                 return <UpdatesTab />;
             case 'Profile':
-                return <ProfileTab onLogout={() => navigation.goBack()} />;
+                return <ProfileTab 
+                    onLogout={() => navigation.goBack()} 
+                    providerId={viewingProfileId}
+                    onBook={(service: any) => {
+                        setCheckoutService(service);
+                        setActiveTab('Checkout');
+                    }}
+                />;
+            case 'Checkout':
+                return <CheckoutTab
+                    service={checkoutService}
+                    onBack={() => setActiveTab('Profile')}
+                    onConfirm={() => {
+                        Alert.alert("Success", "Booking Confirmed!");
+                        setViewingProfileId(null);
+                        setCheckoutService(null);
+                        setActiveTab('Home');
+                    }}
+                />;
             default:
                 return null;
         }
+    };
+
+    const handleTabChange = (tab: string) => {
+        if (tab === 'Profile') {
+            setViewingProfileId(null); // Ensure we see our own profile when using the nav bar
+        }
+        setActiveTab(tab);
     };
 
     return (
@@ -115,7 +150,7 @@ export default function Home() {
             </View>
 
             {/* Custom Minimalistic Bottom Navigation Bar */}
-            <NavBar activeTab={activeTab} setActiveTab={setActiveTab} role={role} />
+            <NavBar activeTab={activeTab} setActiveTab={handleTabChange} role={role} />
         </SafeAreaView>
     );
 }

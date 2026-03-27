@@ -76,20 +76,29 @@ function ProfileSkeleton() {
     );
 }
 
-export default function ProfileTab({ onLogout }: { onLogout: () => void }) {
+export default function ProfileTab({ onLogout, providerId, onBook }: { onLogout: () => void, providerId?: string | null, onBook?: (service: any) => void }) {
     const [isLoading, setIsLoading] = useState(true);
     const [profile, setProfile] = useState<any>(null);
+    const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
 
     // Simulate API call loading
     useEffect(() => {
         const fetchProfile = async () => {
             setIsLoading(true);
             await new Promise(resolve => setTimeout(() => resolve(true), 1200));
-            setProfile(FAKE_PROFILE_JSON);
+            
+            // If providerId is provided, fetch provider data instead of current user profile
+            const profileData = {
+                ...FAKE_PROFILE_JSON,
+                id: providerId || FAKE_PROFILE_JSON.id,
+                name: providerId ? `Provider ${providerId}` : FAKE_PROFILE_JSON.name
+            };
+            
+            setProfile(profileData);
             setIsLoading(false);
         };
         fetchProfile();
-    }, []);
+    }, [providerId]);
 
     if (isLoading || !profile) {
         return <ProfileSkeleton />;
@@ -140,18 +149,25 @@ export default function ProfileTab({ onLogout }: { onLogout: () => void }) {
                 </View>
                 
                 <View style={styles.servicesList}>
-                    {profile.services.map((svc: any) => (
-                        <TouchableOpacity key={svc.id} style={styles.serviceItem}>
-                            <View style={styles.serviceIconWrap}>
-                                <MaterialIcons name={svc.icon} size={24} color="#0f172a" />
-                            </View>
-                            <View style={styles.serviceDetails}>
-                                <Text style={styles.serviceItemTitle}>{svc.title}</Text>
-                                <Text style={styles.serviceItemSub}>{svc.desc}</Text>
-                            </View>
-                            <Text style={styles.servicePrice}>{svc.price}</Text>
-                        </TouchableOpacity>
-                    ))}
+                    {profile.services.map((svc: any) => {
+                        const isSelected = selectedServiceId === svc.id;
+                        return (
+                            <TouchableOpacity 
+                                key={svc.id} 
+                                style={[styles.serviceItem, isSelected && styles.serviceItemSelected]}
+                                onPress={() => setSelectedServiceId(svc.id)}
+                            >
+                                <View style={[styles.serviceIconWrap, isSelected && styles.serviceIconWrapSelected]}>
+                                    <MaterialIcons name={svc.icon} size={24} color={isSelected ? "#ffffff" : "#0f172a"} />
+                                </View>
+                                <View style={styles.serviceDetails}>
+                                    <Text style={styles.serviceItemTitle}>{svc.title}</Text>
+                                    <Text style={styles.serviceItemSub}>{svc.desc}</Text>
+                                </View>
+                                <Text style={[styles.servicePrice, isSelected && styles.servicePriceSelected]}>{svc.price}</Text>
+                            </TouchableOpacity>
+                        );
+                    })}
                 </View>
             </View>
 
@@ -189,11 +205,33 @@ export default function ProfileTab({ onLogout }: { onLogout: () => void }) {
                 </TouchableOpacity>
             </View>
 
-            {/* Profile Log out for Navigation */}
-            <TouchableOpacity style={styles.profileLogOut} onPress={onLogout}>
-                <Ionicons name="log-out-outline" size={20} color="#ef4444" />
-                <Text style={styles.logOutLabel}>Log Out of Application</Text>
-            </TouchableOpacity>
+            {/* Conditional Button: Book Provider or Log Out */}
+            {providerId ? (
+                <TouchableOpacity 
+                    style={[
+                        styles.profileLogOut, 
+                        styles.bookProviderBtn,
+                        !selectedServiceId && { opacity: 0.5, backgroundColor: '#94a3b8', borderColor: '#94a3b8' }
+                    ]} 
+                    disabled={!selectedServiceId}
+                    onPress={() => {
+                        if (selectedServiceId && onBook) {
+                            const svc = profile.services.find((s: any) => s.id === selectedServiceId);
+                            // Add provider details so checkout page has it
+                            onBook({ ...svc, provider: profile });
+                        }
+                    }}>
+                    <Ionicons name="calendar-outline" size={20} color="#ffffff" />
+                    <Text style={styles.bookProviderLabel}>
+                        {selectedServiceId ? 'Proceed to Checkout' : 'Select a Service to Book'}
+                    </Text>
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity style={styles.profileLogOut} onPress={onLogout}>
+                    <Ionicons name="log-out-outline" size={20} color="#ef4444" />
+                    <Text style={styles.logOutLabel}>Log Out of Application</Text>
+                </TouchableOpacity>
+            )}
 
             <View style={{height: 100}} />
         </ScrollView>
@@ -438,5 +476,24 @@ const styles = StyleSheet.create({
         color: '#ef4444',
         fontWeight: '700',
         fontSize: 14,
+    },
+    bookProviderBtn: {
+        backgroundColor: '#0f49bd',
+        borderColor: '#0f49bd',
+    },
+    bookProviderLabel: {
+        color: '#ffffff',
+        fontWeight: '700',
+        fontSize: 14,
+    },
+    serviceItemSelected: {
+        borderColor: '#0f49bd',
+        backgroundColor: '#f8fafc',
+    },
+    serviceIconWrapSelected: {
+        backgroundColor: '#0f49bd',
+    },
+    servicePriceSelected: {
+        color: '#0f49bd',
     }
 });
